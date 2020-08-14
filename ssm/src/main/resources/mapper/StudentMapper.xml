@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoshu.dao.StudentMapper">
+		 <select id="findList" parameterType="studentVo" resultType="studentVo">
+		 	SELECT s.*,m.mdname AS mname FROM tb_stu_day s,tb_major_day m 
+		 	<where>
+		 	s.mid=m.md_id
+		 	<if test="sdbirth1!=null">
+		 	and s.sdbirth &gt;=#{sdbirth1}
+		 	
+		 	</if>
+		 	<if test="sdbirth2!=null">
+		 	and s.sdbirth &lt;=#{sdbirth2}
+		 	
+		 	</if>	
+		 	
+		 	<if test="mid!=null and mid!=0">
+		 	and s.mid=#{mid}
+		 	
+		 	</if>
+		 	<if test="sdHobby!=null and sdHobby!=''">
+		 	and s.sd_hobby like '%${sdHobby}%'
+		 	
+		 	</if> 
+		 <!-- 	
+		 <if test="chaxun!=null and chaxun!=''">
+		 		and (s.sd_hobby like '%${chaxun}%' or s.sd_name like '%${chaxun}%')
+		 	</if> 
+		 	-->
+		 	
+		 	
+		 	
+		 	</where>
+		 </select>
+		 
+		 <select id="selectByName" parameterType="String" resultType="student">
+		 
+		 select * from tb_stu_day  where sd_name=#{sdName}
+		 </select>
+		 
+		 <select id="countStudent"  resultType="studentVo">
+		SELECT  
+m.mdname AS mname,COUNT(m.md_id) AS num
+FROM tb_stu_day s,tb_major_day m WHERE s.mid=m.md_id
+GROUP BY m.md_id
+		 
+		 </select>
+		 
+		 
+</mapper>
